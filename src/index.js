@@ -4,12 +4,19 @@ const app = express()
 
 let connection = null
 
-app.get('', async (req, res) => {
+app.use(express.json())
+
+app.get('/getingredients', async (req, res) => {
     
-    const [rows, fields] = await connection.execute('SELECT * FROM `ingredients`')
-    console.log(rows)
-    console.log(fields)
-    res.send("success")
+    const showPrice = req.body.show_price
+    
+    if(showPrice == 1) {
+        const [rows] = await connection.execute('SELECT `uuid`, `name`, `price` FROM `ingredients`')
+        res.json(rows)
+    } else {
+        const [rows] = await connection.execute('SELECT `uuid`, `name` FROM `ingredients`')
+        res.json(rows)
+    }
 })
 
 app.listen(6900, async () => {
