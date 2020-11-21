@@ -6,7 +6,7 @@ let connection = null
 
 app.use(express.json())
 
-app.get('/getingredients', async (req, res) => {
+app.get('/ingredients', async (req, res) => {
     
     const showPrice = req.body.show_price
     
@@ -16,6 +16,32 @@ app.get('/getingredients', async (req, res) => {
     } else {
         const [rows] = await connection.execute('SELECT `uuid`, `name` FROM `ingredients`')
         res.json(rows)
+    }
+})
+
+app.post('/addtransaction', async (req, res) => {
+
+    let amount = req.body.amount 
+
+    for(const item of req.body.ingredients) {
+        const qty = item.quantity 
+        const uuid = item.uuid 
+
+        const [rows] = await connection.execute('SELECT `price` FROM `ingredients` WHERE `uuid` = ?', [uuid])
+        
+        const totalPrice = qty * rows[0].price 
+
+        amount -= totalPrice 
+    }
+
+    if(amount >= 0) {
+        const result = {status: "success", amount: amount}
+
+        res.json(result)
+    } else {
+        const result = {status: "failed", needed_amount: -1 * amount}
+
+        res.json(result)
     }
 })
 
