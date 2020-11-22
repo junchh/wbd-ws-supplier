@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
-router.use("/ingredients", require("./ingredient"));
+router.use("/ingredient", require("./ingredient"));
+router.use("/transaction", require("./transaction"));
 
 module.exports = router;

@@ -7,4 +7,13 @@ const getIngredients = async () => {
   return rows;
 };
 
-module.exports = { getIngredients };
+const getPriceByUuid = async (uuid) => {
+  const [rows] = await createMySQLConnection().then((conn) => {
+    return conn.execute("SELECT `price` FROM `ingredients` WHERE `uuid` = ?", [
+      uuid,
+    ]);
+  });
+  return rows[0].price;
+};
+
+module.exports = { getIngredients, getPriceByUuid };
