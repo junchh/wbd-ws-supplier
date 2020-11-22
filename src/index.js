@@ -1,23 +1,10 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
 const loaders = require("./loaders");
+const connection = require("./db");
 
-loaders(express()).then(({ connection, app }) => {
-  app.get("/ingredients", async (req, res) => {
-    const showPrice = req.body.show_price;
-
-    if (showPrice == 1) {
-      const [rows] = await connection.execute(
-        "SELECT `uuid`, `name`, `price` FROM `ingredients`"
-      );
-      res.json(rows);
-    } else {
-      const [rows] = await connection.execute(
-        "SELECT `uuid`, `name` FROM `ingredients`"
-      );
-      res.json(rows);
-    }
-  });
+loaders(express()).then(async (app) => {
+  app.use("/api", require("./routes"));
 
   app.post("/addtransaction", async (req, res) => {
     let amount = req.body.amount;
