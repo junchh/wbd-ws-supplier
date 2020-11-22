@@ -1,4 +1,4 @@
-const { getIngredients, getPriceByUuid } = require("../services/ingredient");
+const { getPriceByUuid } = require("../services/ingredient");
 
 const router = require("express").Router();
 
@@ -14,9 +14,7 @@ router.post("/", async (req, res) => {
       const uuid = item.uuid;
 
       const price = await getPriceByUuid(uuid);
-      console.log("ssss1", balance);
       balance -= qty * price;
-      console.log("ssss2", balance);
 
       if (balance < 0) {
         throw new Error("Insufficient balance");
