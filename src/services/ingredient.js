@@ -1,8 +1,12 @@
 const createMySQLConnection = require("../db");
 
-const getIngredients = async () => {
+const getIngredients = async (showPrice) => {
   const [rows] = await createMySQLConnection().then((conn) => {
-    return conn.execute("SELECT `uuid`, `name`, `price` FROM `ingredients`");
+    if (showPrice) {
+      return conn.execute("SELECT `uuid`, `name`, `price` FROM `ingredients`");
+    } else {
+      return conn.execute("SELECT `uuid`, `name` FROM `ingredients`");
+    }
   });
   return rows;
 };
