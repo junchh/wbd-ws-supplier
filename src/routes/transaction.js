@@ -1,4 +1,4 @@
-const { getPriceByUuid } = require("../services/ingredient");
+const { getPriceByUuid, getExpiryByUuid } = require("../services/ingredient");
 
 const router = require("express").Router();
 
@@ -20,8 +20,9 @@ router.post("/", async (req, res) => {
         throw new Error("Insufficient balance");
       } else {
         const expiryDate = new Date();
+        const expiryDays = await getExpiryByUuid(uuid);
         expiryDate.setDate(
-          expiryDate.getDate() + 30 + Math.floor(Math.random() * 10) - 5
+          expiryDate.getDate() + expiryDays
         );
         ingredientsList.push({ ...item, expiryDate });
       }
