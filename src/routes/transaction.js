@@ -1,4 +1,4 @@
-const { getPriceByUuid, getExpiryByUuid } = require("../services/ingredient");
+const { getPriceByUuid, getExpiryByUuid, getNameByUuid } = require("../services/ingredient");
 
 const router = require("express").Router();
 
@@ -13,6 +13,8 @@ router.post("/", async (req, res) => {
       const qty = item.quantity;
       const uuid = item.uuid;
 
+      const name = await getNameByUuid(uuid);
+
       const price = await getPriceByUuid(uuid);
       balance -= qty * price;
 
@@ -24,7 +26,7 @@ router.post("/", async (req, res) => {
         expiryDate.setDate(
           expiryDate.getDate() + expiryDays
         );
-        ingredientsList.push({ ...item, expiryDate });
+        ingredientsList.push({ ...item, name, expiryDate, totalPrice: qty * price });
       }
     }
 

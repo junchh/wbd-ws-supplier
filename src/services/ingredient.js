@@ -29,4 +29,13 @@ const getExpiryByUuid = async (uuid) => {
   return rows[0].expiry_days;
 };
 
-module.exports = { getIngredients, getPriceByUuid, getExpiryByUuid };
+const getNameByUuid = async (uuid) => {
+  const [rows] = await createMySQLConnection().then((conn) => {
+    return conn.execute("SELECT `name` FROM `ingredients` WHERE `uuid` = ?", [
+      uuid,
+    ]);
+  });
+  return rows[0].name;
+};
+
+module.exports = { getIngredients, getPriceByUuid, getExpiryByUuid, getNameByUuid };
