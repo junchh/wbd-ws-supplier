@@ -11,10 +11,10 @@ app.get('/ingredients', async (req, res) => {
     const showPrice = req.body.show_price
     
     if(showPrice == 1) {
-        const [rows] = await connection.execute('SELECT `uuid`, `name`, `price` FROM `ingredients`')
+        const [rows] = await connection.execute('SELECT `uuid`, `name`, `price`, `expiry_days` FROM `ingredients`')
         res.json(rows)
     } else {
-        const [rows] = await connection.execute('SELECT `uuid`, `name` FROM `ingredients`')
+        const [rows] = await connection.execute('SELECT `uuid`, `name`, `expiry_days` FROM `ingredients`')
         res.json(rows)
     }
 })
