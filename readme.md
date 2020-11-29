@@ -8,7 +8,7 @@ Web Service Supplier merupakan 3rd party web service yang menerima transaksi pem
 
 Basis data yang digunakan untuk supplier adalah MySQL. Di basis datanya hanya terdapat satu tabel, den berikut strukturnya.
 
-[!basis data](image.png)
+[!basisdata](image.png)
 
 ## Deskripsi Endpoint
 
